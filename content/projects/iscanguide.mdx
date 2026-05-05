@@ -1,0 +1,97 @@
+---
+slug: iscanguide
+title: iScanGuide — Single-Cell & Spatial Genomics Analysis Platform
+client: Advaita Bioinformatics
+role: Software Engineer
+year: 2025
+status: ongoing
+featured: true
+order: 1
+stack:
+  - TypeScript
+  - React
+  - Meteor
+  - Node.js
+  - Python
+  - R
+  - AWS
+heroImage: /images/projects/iscanguide-hero.png
+liveUrl: https://iscanguide.advaitabio.com
+summary: Scaled single-cell visualization from 100K to 10M+ cells; integrated five instrument platforms.
+metrics:
+  - label: Cells supported
+    value: 10M+
+  - label: Browser memory reduction
+    value: 50%+
+  - label: Instrument formats integrated
+    value: "5"
+  - label: Unit tests per format
+    value: "~20"
+---
+
+## Context
+
+iScanGuide is a web-based research platform that lets bench scientists upload raw outputs from
+single-cell and spatial transcriptomics instruments and run a complete analysis pipeline — quality
+control, cell filtering, dimensionality reduction (UMAP/tSNE), clustering, differential expression,
+enrichment analysis, cell-type annotation, and time-trajectory inference — without writing code.
+
+The platform supports 10x Genomics Chromium and Visium (V1, CytAssist, HD binned and segmented),
+Parse Biosciences Evercode (split-pipe), Vizgen MERFISH, and direct AnnData uploads. It's built on
+a Meteor + React + TypeScript frontend, a Node.js task queue, and Python + R analysis scripts using
+AnnData, BPCells (on-disk sparse matrix), scipy, and Seurat.
+
+## My contributions
+
+### Platform integrations
+
+I designed and built end-to-end intake for new instrument formats — the Parse Biosciences Evercode
+parser (`split-pipe → h5ad`) and the Vizgen MERFISH parser
+(`cell_by_gene + cell_metadata → h5ad with obsm["spatial"]`). Each integration included
+file-format auto-detection, archive (.tar.gz / .zip) extraction with zip-slip / tar-slip defenses,
+validation, the Python converter, frontend platform configuration, backend pipeline registration,
+and roughly 20 unit tests per format covering the happy path, missing files, malformed inputs, and
+edge cases (gzipped, tab-separated, prefix/suffix filename variants, nested archive layouts).
+
+### Modular preprocessor framework
+
+I refactored a single legacy preprocessing script into a registry-based converter framework — a
+`PlatformConverter` ABC plus shared archive / spatial / matrix I/O modules — so new platforms can
+be added with a single class registration.
+
+### Scaling visualization from 100K to 10M cells
+
+I built and optimized large-scale single-cell visualization support by implementing
+visualization-only sampling, fixing memory leaks, and rewriting filtering pipelines. Browser memory
+usage dropped by 50%+, and the platform now stably renders datasets up to 5M cells without crashes
+or performance degradation.
+
+### Task queue
+
+I implemented subscription validation and Basic Auth integration in the task queue, and added
+subscription tracking on jobs.
+
+### Infrastructure
+
+I designed and shipped the Mumbai region deployment: Docker image build and push to ECR Mumbai,
+EFS-backed shared storage, and EC2 infrastructure provisioning.
+
+### Bug fixes & UX polish
+
+Multi-sample detection on archive uploads, loading-state plumbing through long-running
+preprocessing jobs, and proper error surfacing from server jobs to the UI.
+
+## Outcome
+
+{/* Phase 3 will replace this with a <MetricsGrid /> component reading the
+    metrics array from frontmatter. The summary line below stays as prose. */}
+
+Five instrument formats integrated with ~20 unit tests each, browser memory usage cut by more than
+half, and a platform that stably renders up to 5 million cells in the browser — up from 100K when I
+joined.
+
+## Reflections
+
+{/* TODO: Ahmad to write — what you learned, what you'd do differently, what's
+    next for the platform. Three paragraphs is plenty. Self-aware engineers
+    read better than defensive ones; talk about the trade-offs you'd revisit. */}
