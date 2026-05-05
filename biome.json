@@ -8,6 +8,11 @@
   "files": {
     "includes": ["**", "!.next", "!node_modules", "!out", "!next-env.d.ts"]
   },
+  "css": {
+    "parser": {
+      "tailwindDirectives": true
+    }
+  },
   "formatter": {
     "enabled": true,
     "indentStyle": "space",
@@ -38,6 +43,9 @@
       "correctness": {
         "noUnusedVariables": "error",
         "noUnusedImports": "error"
+      },
+      "complexity": {
+        "noImportantStyles": "off"
       }
     }
   },
