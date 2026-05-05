@@ -96,6 +96,20 @@
   }
 }
 
+/* Shiki dual-theme switching. rehype-shiki emits each token with both a
+ * `style` (light) and a `--shiki-dark` variable. We flip via [data-theme]. */
+.shiki,
+.shiki span {
+  background-color: var(--shiki-light-bg);
+  color: var(--shiki-light);
+}
+
+[data-theme="dark"] .shiki,
+[data-theme="dark"] .shiki span {
+  background-color: var(--shiki-dark-bg);
+  color: var(--shiki-dark);
+}
+
 /* Reduced motion — non-essential animation disabled at the platform level.
  * Motion library respects this too via MotionConfig reducedMotion="user". */
 @media (prefers-reduced-motion: reduce) {
