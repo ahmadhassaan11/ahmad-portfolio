@@ -4,8 +4,10 @@ import Image from "next/image";
 import NextLink from "next/link";
 import { notFound } from "next/navigation";
 import { FadeIn } from "@/components/motion/fade-in";
+import { SiteFooter } from "@/components/sections/site-footer";
 import { MetaStrip } from "@/components/ui/meta-strip";
 import { MetricsGrid } from "@/components/ui/metrics-grid";
+import { getHomeContent } from "@/lib/home";
 import { getAllProjects, getProjectBySlug } from "@/lib/projects";
 
 interface PageProps {
@@ -42,7 +44,7 @@ export default async function ProjectPage({ params }: PageProps) {
   const BoundMetricsGrid = () => <MetricsGrid metrics={project.metrics ?? []} />;
 
   // Prev/next based on the chronological project list (most recent first).
-  const all = await getAllProjects();
+  const [all, home] = await Promise.all([getAllProjects(), getHomeContent()]);
   const idx = all.findIndex((p) => p.slug === slug);
   const prev = idx > 0 ? (all[idx - 1] ?? null) : null;
   const next = idx < all.length - 1 ? (all[idx + 1] ?? null) : null;
@@ -119,6 +121,8 @@ export default async function ProjectPage({ params }: PageProps) {
           <div aria-hidden="true" />
         )}
       </nav>
+
+      <SiteFooter contact={home.contact} />
     </main>
   );
 }

@@ -1,39 +1,36 @@
-import { getAllProjects } from "@/lib/projects";
+import { FadeIn } from "@/components/motion/fade-in";
+import { CurrentlyBlock } from "@/components/sections/currently-block";
+import { ExperienceList } from "@/components/sections/experience-list";
+import { FeaturedWork } from "@/components/sections/featured-work";
+import { Hero } from "@/components/sections/hero";
+import { SiteFooter } from "@/components/sections/site-footer";
+import { TrustStrip } from "@/components/sections/trust-strip";
+import { experience } from "@/content/experience";
+import { getHomeContent } from "@/lib/home";
+import { getFeaturedProjects } from "@/lib/projects";
 
 export default async function HomePage() {
-  // Server Component — runs on the server, reads MDX frontmatter at build time.
-  // The real home composition lands in Phase 4; this is the scaffold's proof
-  // that adding a new MDX file under content/projects/ is auto-detected.
-  const projects = await getAllProjects();
+  // Server Component — every read happens at build time, then the page is
+  // pre-rendered to static HTML. Zero client-side data fetching.
+  const [home, featured] = await Promise.all([getHomeContent(), getFeaturedProjects()]);
 
   return (
-    <main className="mx-auto min-h-dvh max-w-3xl px-6 py-16">
-      <h1 className="text-4xl font-semibold tracking-tight">Ahmad Hassaan Ullah</h1>
-      <p className="mt-4 text-lg text-mute">
-        Senior software engineer. I build and scale production web platforms — currently shipping at
-        Advaita Bioinformatics.
-      </p>
+    <main className="mx-auto max-w-3xl px-6 py-16 md:py-24">
+      <div className="space-y-24 md:space-y-28">
+        <FadeIn>
+          <Hero tagline={home.tagline} status={home.status} />
+        </FadeIn>
 
-      <div className="mt-12 inline-flex items-center gap-2 rounded-full border border-line bg-surface px-3 py-1.5 font-mono text-xs text-mute">
-        <span className="size-2 rounded-full bg-accent" aria-hidden="true" />
-        scaffold v0.3 — mdx pipeline online · {projects.length} projects detected
+        <FeaturedWork projects={featured} />
+
+        <ExperienceList entries={experience} />
+
+        <CurrentlyBlock entries={home.currently} />
+
+        <TrustStrip items={home.trust} />
       </div>
 
-      <section className="mt-12">
-        <h2 className="font-mono text-xs uppercase tracking-widest text-mute">content/projects/</h2>
-        <ul className="mt-4 divide-y divide-line border-line border-t border-b">
-          {projects.map((p) => (
-            <li
-              key={p.slug}
-              className="flex items-baseline justify-between gap-6 py-3 font-mono text-sm"
-            >
-              <span className="text-fg">{p.slug}.mdx</span>
-              <span className="truncate text-mute">{p.title}</span>
-              <span className="shrink-0 text-mute">{p.year}</span>
-            </li>
-          ))}
-        </ul>
-      </section>
+      <SiteFooter contact={home.contact} />
     </main>
   );
 }
