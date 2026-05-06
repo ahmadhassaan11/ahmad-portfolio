@@ -15,7 +15,9 @@ export function CommandPaletteTrigger({ className }: CommandPaletteTriggerProps)
     <button
       type="button"
       onClick={() => window.dispatchEvent(new CustomEvent("open-command-palette"))}
-      aria-label="Open command palette"
+      // Visible "Search" text serves as the accessible name; aria-label that
+      // doesn't include the visible text would trigger
+      // label-content-name-mismatch.
       className={cn(
         "inline-flex h-9 items-center gap-2 rounded-md border border-line bg-surface px-3 font-mono text-xs text-mute transition-colors duration-150 hover:border-fg/30 hover:text-fg",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-canvas",

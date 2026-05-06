@@ -44,6 +44,7 @@ export default async function WorkPage() {
         </header>
       </FadeIn>
 
+      <h2 className="sr-only">Projects</h2>
       <WorkGrid projects={projects} />
 
       <SiteFooter contact={home.contact} />
