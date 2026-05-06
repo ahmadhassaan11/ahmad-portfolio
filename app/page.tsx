@@ -23,7 +23,7 @@ export default async function HomePage() {
 
         <FeaturedWork projects={featured} />
 
-        <ExperienceList entries={experience} />
+        <ExperienceList entries={experience.slice(0, 3)} showAllLink />
 
         <CurrentlyBlock entries={home.currently} />
 

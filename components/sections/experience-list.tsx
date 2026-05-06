@@ -4,16 +4,25 @@ import { formatDateRange } from "@/lib/dates";
 
 interface ExperienceListProps {
   entries: ExperienceEntry[];
+  /** Section heading. Defaults to "Selected experience". */
+  title?: string;
+  /** Render a "Full work history on /about" trailing link (home only). */
+  showAllLink?: boolean;
 }
 
 /**
- * Selected experience. Compact list — company, role, dates per row, one
- * sentence below. No bullets, no logos. SPEC §7.1.3.
+ * Compact list — company, role, dates per row, one sentence below. No
+ * bullets, no logos. Used on home (top 3 + see-more link) and on /about
+ * (full history, no trailing link). SPEC §7.1.3 / §7.4.
  */
-export function ExperienceList({ entries }: ExperienceListProps) {
+export function ExperienceList({
+  entries,
+  title = "Selected experience",
+  showAllLink = false,
+}: ExperienceListProps) {
   return (
     <section className="space-y-8">
-      <h2 className="font-mono text-xs uppercase tracking-widest text-mute">Selected experience</h2>
+      <h2 className="font-mono text-xs uppercase tracking-widest text-mute">{title}</h2>
 
       <ol className="space-y-7">
         {entries.map((entry) => (
@@ -32,9 +41,11 @@ export function ExperienceList({ entries }: ExperienceListProps) {
         ))}
       </ol>
 
-      <Link href="/about" appearance="subtle" showArrow>
-        Full work history on /about
-      </Link>
+      {showAllLink ? (
+        <Link href="/about" appearance="subtle" showArrow>
+          Full work history on /about
+        </Link>
+      ) : null}
     </section>
   );
 }
