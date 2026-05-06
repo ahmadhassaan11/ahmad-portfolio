@@ -3,12 +3,28 @@ import { FadeIn } from "@/components/motion/fade-in";
 import { SiteFooter } from "@/components/sections/site-footer";
 import { WorkGrid } from "@/components/sections/work-grid";
 import { getHomeContent } from "@/lib/home";
+import { buildOgImageUrl } from "@/lib/og-image";
 import { getAllProjects } from "@/lib/projects";
 
+const PAGE_TITLE = "Work";
+const PAGE_DESCRIPTION =
+  "Selected projects across React, Vue, Node.js, Python, and AWS — from single-cell genomics platforms to distributed-systems primitives.";
+
 export const metadata: Metadata = {
-  title: "Work — Ahmad Hassaan Ullah",
-  description:
-    "Selected projects across React, Vue, Node.js, Python, and AWS — from single-cell genomics platforms to distributed-systems primitives.",
+  title: PAGE_TITLE,
+  description: PAGE_DESCRIPTION,
+  openGraph: {
+    title: PAGE_TITLE,
+    description: PAGE_DESCRIPTION,
+    type: "website",
+    images: [
+      {
+        url: buildOgImageUrl({ eyebrow: "/work", title: PAGE_TITLE, subtitle: PAGE_DESCRIPTION }),
+        width: 1200,
+        height: 630,
+      },
+    ],
+  },
 };
 
 export default async function WorkPage() {

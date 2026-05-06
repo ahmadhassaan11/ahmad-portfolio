@@ -1,4 +1,5 @@
 import { GithubIcon, LinkedinIcon, XIcon } from "@/components/ui/brand-icons";
+import { CommandPaletteTrigger } from "@/components/ui/command-palette-trigger";
 import { Link } from "@/components/ui/link";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { BUILD_TIME } from "@/lib/build-time";
@@ -44,15 +45,18 @@ export function SiteFooter({ contact }: SiteFooterProps) {
           {contact.email}
         </Link>
 
-        <div className="flex items-center gap-1">
-          {contact.github ? (
-            <SocialIcon href={contact.github} label="GitHub" icon={GithubIcon} />
-          ) : null}
-          {contact.linkedin ? (
-            <SocialIcon href={contact.linkedin} label="LinkedIn" icon={LinkedinIcon} />
-          ) : null}
-          {contact.x ? <SocialIcon href={contact.x} label="X" icon={XIcon} /> : null}
-          <ThemeToggle />
+        <div className="flex items-center gap-2">
+          <CommandPaletteTrigger />
+          <div className="flex items-center gap-1">
+            {contact.github ? (
+              <SocialIcon href={contact.github} label="GitHub" icon={GithubIcon} />
+            ) : null}
+            {contact.linkedin ? (
+              <SocialIcon href={contact.linkedin} label="LinkedIn" icon={LinkedinIcon} />
+            ) : null}
+            {contact.x ? <SocialIcon href={contact.x} label="X" icon={XIcon} /> : null}
+            <ThemeToggle />
+          </div>
         </div>
       </div>
 

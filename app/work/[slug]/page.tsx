@@ -8,6 +8,7 @@ import { SiteFooter } from "@/components/sections/site-footer";
 import { MetaStrip } from "@/components/ui/meta-strip";
 import { MetricsGrid } from "@/components/ui/metrics-grid";
 import { getHomeContent } from "@/lib/home";
+import { buildOgImageUrl } from "@/lib/og-image";
 import { getAllProjects, getProjectBySlug } from "@/lib/projects";
 
 interface PageProps {
@@ -23,9 +24,26 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { slug } = await params;
   const project = await getProjectBySlug(slug);
   if (!project) return {};
+  const ogUrl = buildOgImageUrl({
+    eyebrow: "Case study",
+    title: project.title,
+    subtitle: project.summary,
+  });
   return {
-    title: `${project.title} — Ahmad Hassaan Ullah`,
+    title: project.title,
     description: project.summary,
+    openGraph: {
+      title: project.title,
+      description: project.summary,
+      type: "article",
+      images: [{ url: ogUrl, width: 1200, height: 630 }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: project.title,
+      description: project.summary,
+      images: [ogUrl],
+    },
   };
 }
 

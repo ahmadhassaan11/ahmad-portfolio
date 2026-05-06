@@ -6,11 +6,27 @@ import { SiteFooter } from "@/components/sections/site-footer";
 import { experience } from "@/content/experience";
 import { getAboutContent } from "@/lib/about";
 import { getHomeContent } from "@/lib/home";
+import { buildOgImageUrl } from "@/lib/og-image";
+
+const PAGE_TITLE = "About";
+const PAGE_DESCRIPTION =
+  "Senior software engineer based in Lahore. Eight years across startups; currently shipping a single-cell genomics platform at Advaita Bioinformatics.";
 
 export const metadata: Metadata = {
-  title: "About — Ahmad Hassaan Ullah",
-  description:
-    "Senior software engineer based in Lahore. Eight years across startups; currently shipping a single-cell genomics platform at Advaita Bioinformatics.",
+  title: PAGE_TITLE,
+  description: PAGE_DESCRIPTION,
+  openGraph: {
+    title: PAGE_TITLE,
+    description: PAGE_DESCRIPTION,
+    type: "profile",
+    images: [
+      {
+        url: buildOgImageUrl({ eyebrow: "/about", title: PAGE_TITLE, subtitle: PAGE_DESCRIPTION }),
+        width: 1200,
+        height: 630,
+      },
+    ],
+  },
 };
 
 export default async function AboutPage() {

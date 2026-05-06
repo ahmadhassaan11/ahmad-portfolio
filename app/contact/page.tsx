@@ -4,10 +4,31 @@ import { FadeIn } from "@/components/motion/fade-in";
 import { SiteFooter } from "@/components/sections/site-footer";
 import { Link } from "@/components/ui/link";
 import { getHomeContent } from "@/lib/home";
+import { buildOgImageUrl } from "@/lib/og-image";
+
+const PAGE_TITLE = "Get in touch";
+const PAGE_DESCRIPTION =
+  "For project work, Upwork, and everything else. I respond within 24 hours.";
 
 export const metadata: Metadata = {
-  title: "Contact — Ahmad Hassaan Ullah",
-  description: "For project work, Upwork, and everything else.",
+  title: "Contact",
+  description: PAGE_DESCRIPTION,
+  openGraph: {
+    title: PAGE_TITLE,
+    description: PAGE_DESCRIPTION,
+    type: "website",
+    images: [
+      {
+        url: buildOgImageUrl({
+          eyebrow: "/contact",
+          title: PAGE_TITLE,
+          subtitle: PAGE_DESCRIPTION,
+        }),
+        width: 1200,
+        height: 630,
+      },
+    ],
+  },
 };
 
 interface ContactRowProps {

@@ -110,6 +110,53 @@
   color: var(--shiki-dark);
 }
 
+/* cmdk command palette — Radix-Dialog overlay sits at [cmdk-overlay].
+ * Backdrop the rest of the page with a faint blurred canvas wash. */
+[cmdk-overlay] {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background-color: color-mix(in srgb, var(--canvas) 70%, transparent);
+  backdrop-filter: blur(4px);
+}
+
+[cmdk-overlay][data-state="closed"] {
+  display: none;
+}
+
+/* View Transitions — opt in to the browser-native cross-document fade. Next's
+ * client-side router also wraps navigation in startViewTransition when the
+ * `viewTransition` experimental flag is on (next.config.ts), so the same
+ * animation runs on link clicks too. Browsers without support fall back to
+ * an instant swap (no shimmer). */
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.25s;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+::view-transition-old(root) {
+  animation-name: vt-fade-out;
+}
+::view-transition-new(root) {
+  animation-name: vt-fade-in;
+}
+
+@keyframes vt-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes vt-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
 /* Reduced motion — non-essential animation disabled at the platform level.
  * Motion library respects this too via MotionConfig reducedMotion="user". */
 @media (prefers-reduced-motion: reduce) {
