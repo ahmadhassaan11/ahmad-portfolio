@@ -21,21 +21,20 @@ const withMDX = createMDX({
 });
 
 const nextConfig: NextConfig = {
-  output: "export",           // ← required for GitHub Pages
+  output: "export",            // ← GitHub Pages static export
   reactStrictMode: true,
   pageExtensions: ["ts", "tsx", "mdx"],
   images: {
-    unoptimized: true,        // ← required for static export (no image server)
+    unoptimized: true,         // ← no image server on GitHub Pages
   },
   experimental: {
     viewTransition: true,
   },
-  // ↓ Tell Turbopack how to handle .mdx files
   turbopack: {
     rules: {
       "*.mdx": {
         loaders: ["@mdx-js/loader"],
-        as: "*.tsx",
+        as: "*.js",            // ← '*.js' not '*.tsx' — avoids double TS pipeline
       },
     },
   },
