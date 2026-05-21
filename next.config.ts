@@ -1,6 +1,9 @@
 import createMDX from "@next/mdx";
 import type { NextConfig } from "next";
 
+const isGithubPages = process.env.GITHUB_ACTIONS === "true";
+const repoName = "ahmad-portfolio";
+
 // Turbopack's MDX loader serializes plugin config — pass plugin specifiers
 // as strings (with optional [name, options] tuples), not as imported functions.
 
@@ -35,6 +38,8 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
+  basePath: isGithubPages ? `/${repoName}` : "",
+  assetPrefix: isGithubPages ? `/${repoName}/` : "",
   // Wrap client-side navigations in document.startViewTransition so the CSS
   // @view-transition rules in globals.css fire on link clicks (not just full
   // reloads). Browsers without the API fall back gracefully.
