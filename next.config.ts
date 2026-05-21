@@ -29,8 +29,12 @@ const withMDX = createMDX({
 });
 
 const nextConfig: NextConfig = {
+  output: "export",
   reactStrictMode: true,
   pageExtensions: ["ts", "tsx", "mdx"],
+  images: {
+    unoptimized: true,
+  },
   // Wrap client-side navigations in document.startViewTransition so the CSS
   // @view-transition rules in globals.css fire on link clicks (not just full
   // reloads). Browsers without the API fall back gracefully.
